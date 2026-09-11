@@ -1,0 +1,15 @@
+﻿id: instruction-002-schema-json
+title: "JSON with exact keys"
+category: instruction-following
+difficulty: medium
+prompt: |
+  Reply with a JSON object that has exactly the keys "alpha", "beta" and
+  "gamma", with the integer values 1, 2 and 3 respectively.
+expected_output: ""
+eval:
+  json_match:
+    weight: 1.0
+    expected:
+      alpha: 1
+      beta: 2
+      gamma: 3

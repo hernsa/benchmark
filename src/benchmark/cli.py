@@ -1,4 +1,4 @@
-"""Command-line interface: run a benchmark and show the aggregate dashboard."""
+﻿"""Command-line interface: run a benchmark and show the aggregate dashboard."""
 
 import csv
 import json
@@ -53,31 +53,37 @@ def _load_config(path: str | None) -> dict:
     return yaml.safe_load(Path(path).read_text(encoding="utf-8")) or {}
 
 
+def _breakdown_lines(breakdown: dict) -> str:
+    return "\n".join(
+        f"{name}: {v['pct']:.1f}% ({v['passed']}/{v['total']} passed)"
+        for name, v in breakdown.items()
+    )
+
+
 def _print_dashboard(summary: dict, adapter_name: str) -> None:
     table = Table(title=f"Benchmark results — {adapter_name}")
     table.add_column("Task", style="cyan")
     table.add_column("Category", style="magenta")
+    table.add_column("Difficulty", style="yellow")
     table.add_column("Score %", justify="right")
     table.add_column("Result", justify="center")
     for r in summary["results"]:
         table.add_row(
             r["task_id"],
             r["category"],
+            r["difficulty"],
             f"{r['total']:.1f}",
             "[green]PASS[/green]" if r["passed"] else "[red]FAIL[/red]",
         )
     console.print(table)
 
-    cat_lines = "\n".join(
-        f"{name}: {v['pct']:.1f}% ({v['passed']}/{v['total']} passed)"
-        for name, v in summary["by_category"].items()
-    )
     console.print(
         Panel(
             f"Overall: {summary['overall_pct']:.1f}%\n"
             f"Pass rate: {summary['pass_rate']:.1f}% "
             f"({summary['passed']}/{summary['total']})\n\n"
-            f"{cat_lines}",
+            f"By category:\n{_breakdown_lines(summary['by_category'])}\n\n"
+            f"By difficulty:\n{_breakdown_lines(summary['by_difficulty'])}",
             title="Aggregate",
         )
     )
@@ -101,14 +107,26 @@ def _write_markdown(summary: dict, adapter_name: str, path: Path) -> None:
         lines.append(f"| {name} | {v['pct']:.1f} | {v['passed']} | {v['total']} |")
     lines += [
         "",
+        "## By difficulty",
+        "",
+        "| Difficulty | Score % | Passed | Total |",
+        "| --- | ---: | ---: | ---: |",
+    ]
+    for name, v in summary["by_difficulty"].items():
+        lines.append(f"| {name} | {v['pct']:.1f} | {v['passed']} | {v['total']} |")
+    lines += [
+        "",
         "## By task",
         "",
-        "| Task | Category | Score % | Result |",
-        "| --- | --- | ---: | --- |",
+        "| Task | Category | Difficulty | Score % | Result |",
+        "| --- | --- | --- | ---: | --- |",
     ]
     for r in summary["results"]:
         mark = "PASS" if r["passed"] else "FAIL"
-        lines.append(f"| {r['task_id']} | {r['category']} | {r['total']:.1f} | {mark} |")
+        lines.append(
+            f"| {r['task_id']} | {r['category']} | {r['difficulty']} | "
+            f"{r['total']:.1f} | {mark} |"
+        )
     lines.append("")
     path.write_text("\n".join(lines), encoding="utf-8")
 
@@ -116,10 +134,17 @@ def _write_markdown(summary: dict, adapter_name: str, path: Path) -> None:
 def _write_csv(summary: dict, path: Path) -> None:
     with path.open("w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
-        w.writerow(["task_id", "category", "score_pct", "passed", "scores"])
+        w.writerow(["task_id", "category", "difficulty", "score_pct", "passed", "scores"])
         for r in summary["results"]:
             w.writerow(
-                [r["task_id"], r["category"], r["total"], r["passed"], json.dumps(r["scores"])]
+                [
+                    r["task_id"],
+                    r["category"],
+                    r["difficulty"],
+                    r["total"],
+                    r["passed"],
+                    json.dumps(r["scores"]),
+                ]
             )
 
 

@@ -1,29 +1,32 @@
-id: debugging-001-offbyone
-title: Fix off-by-one in total()
+﻿id: debugging-001-offbyone
+title: "Fix the off-by-one bug"
 category: debugging
 difficulty: easy
-prompt: |-
-  This Python function has an off-by-one bug. Return the FIXED function
-  in a ```python fenced block and nothing else:
+prompt: |
+  The function below is supposed to return the sum of 1..n inclusive, but it
+  has an off-by-one bug:
 
   ```python
-  def total(items):
-      s = 0
-      for i in range(len(items) - 1):
-          s += items[i]
-      return s
+  def total(n: int) -> int:
+      return sum(range(n))
   ```
+
+  Respond with a single ```python code block containing the FIXED function.
+expected_output: ""
 eval:
   pytest:
     weight: 1.0
-    test_code: |-
+    test_code: |
       from solution import total
 
-      def test_sums_all():
-          assert total([1, 2, 3, 4]) == 10
 
-      def test_single():
-          assert total([7]) == 7
+      def test_five():
+          assert total(5) == 15
 
-      def test_empty():
-          assert total([]) == 0
+
+      def test_one():
+          assert total(1) == 1
+
+
+      def test_zero():
+          assert total(0) == 0

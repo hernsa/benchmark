@@ -1,0 +1,16 @@
+﻿id: reasoning-003-ages
+title: "Age puzzle"
+category: reasoning
+difficulty: hard
+prompt: |
+  Anna is three times as old as Ben. In 8 years, Anna will be exactly twice
+  as old as Ben. Show your reasoning, then end your reply with Ben's current
+  age on its own line in exactly this format:
+
+  #### <answer>
+expected_output: "8"
+eval:
+  final_answer:
+    weight: 1.0
+    target: "8"
+    mode: numeric

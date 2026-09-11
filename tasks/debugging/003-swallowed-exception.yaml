@@ -1,0 +1,41 @@
+﻿id: debugging-003-swallowed-exception
+title: "Fix the swallowed exception"
+category: debugging
+difficulty: hard
+prompt: |
+  The function below is supposed to parse an integer, but it swallows the
+  ValueError that `int()` raises on bad input and returns None instead of
+  letting the caller see the error:
+
+  ```python
+  def parse_int(s):
+      try:
+          return int(s)
+      except Exception:
+          return None
+  ```
+
+  Fix it so that valid input (including surrounding whitespace) returns the
+  integer and invalid input raises ValueError. Respond with a single
+  ```python code block containing the FIXED function.
+expected_output: ""
+eval:
+  pytest:
+    weight: 1.0
+    test_code: |
+      import pytest
+
+      from solution import parse_int
+
+
+      def test_valid():
+          assert parse_int("42") == 42
+
+
+      def test_whitespace():
+          assert parse_int(" 7 ") == 7
+
+
+      def test_invalid_raises():
+          with pytest.raises(ValueError):
+              parse_int("abc")

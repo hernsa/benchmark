@@ -1,0 +1,29 @@
+﻿id: tooluse-003-nested-args
+title: "Nested tool arguments"
+category: tool-use
+difficulty: hard
+prompt: |
+  You have access to a tool:
+
+  - create_user(name: str, address: dict, tags: list) - Create a user record.
+    - name: full name of the user
+    - address: object with keys "street" and "city"
+    - tags: list of strings
+
+  User request: "Create user Ada Lovelace at 1 Main St, London, with the
+  admin tag."
+
+  Respond with ONLY a JSON object of the form:
+  {"name": <tool name>, "arguments": {<arg>: <value>, ...}}
+expected_output: ""
+eval:
+  function_call:
+    weight: 1.0
+    function: create_user
+    args:
+      name: Ada Lovelace
+      address:
+        street: 1 Main St
+        city: London
+      tags:
+        - admin

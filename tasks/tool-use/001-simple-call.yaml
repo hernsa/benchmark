@@ -1,0 +1,23 @@
+﻿id: tooluse-001-simple-call
+title: "Single tool call"
+category: tool-use
+difficulty: easy
+prompt: |
+  You have access to a tool:
+
+  - get_weather(city: str, unit: str) - Get the current weather for a city.
+    - city: name of the city
+    - unit: temperature unit, "celsius" or "fahrenheit"
+
+  User request: "What's the weather in Paris, in celsius?"
+
+  Respond with ONLY a JSON object of the form:
+  {"name": <tool name>, "arguments": {<arg>: <value>, ...}}
+expected_output: ""
+eval:
+  function_call:
+    weight: 1.0
+    function: get_weather
+    args:
+      city: Paris
+      unit: celsius

@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+﻿from dataclasses import dataclass, field
 
 
 @dataclass
@@ -17,7 +17,8 @@ class Task:
 class TaskResult:
     task_id: str
     category: str
-    output: str
-    scores: dict[str, float]
-    total: float
-    passed: bool
+    difficulty: str = "easy"
+    output: str = ""
+    scores: dict[str, float] = field(default_factory=dict)
+    total: float = 0.0
+    passed: bool = False

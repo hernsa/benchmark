@@ -1,0 +1,16 @@
+﻿id: reasoning-002-discount
+title: "Discount then tax"
+category: reasoning
+difficulty: medium
+prompt: |
+  A jacket costs $250. It is on sale at 20% off. At checkout, a 10% tax is
+  added to the discounted price. Show your reasoning, then end your reply
+  with the final price in dollars on its own line in exactly this format:
+
+  #### <answer>
+expected_output: "220"
+eval:
+  final_answer:
+    weight: 1.0
+    target: "220"
+    mode: numeric

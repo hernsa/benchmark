@@ -1,0 +1,30 @@
+﻿id: tooluse-002-parallel-calls
+title: "Parallel tool calls"
+category: tool-use
+difficulty: medium
+prompt: |
+  You have access to a tool:
+
+  - get_weather(city: str, unit: str) - Get the current weather for a city.
+    - city: name of the city
+    - unit: temperature unit, "celsius" or "fahrenheit"
+
+  User request: "Compare the weather in Paris and Tokyo, in celsius."
+  This requires two independent tool calls.
+
+  Respond with ONLY a JSON array of call objects, in the order the user
+  mentioned the cities:
+  [{"name": <tool name>, "arguments": {...}}, ...]
+expected_output: ""
+eval:
+  function_call:
+    weight: 1.0
+    calls:
+      - function: get_weather
+        args:
+          city: Paris
+          unit: celsius
+      - function: get_weather
+        args:
+          city: Tokyo
+          unit: celsius

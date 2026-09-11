@@ -1,11 +1,31 @@
-id: coding-reverse-string
-title: Reverse a string function
+﻿id: coding-001-reverse-string
+title: "Reverse a string"
 category: coding
 difficulty: easy
-prompt: "Write a Python function `reverse_string(s: str) -> str` that returns the reversed string. Output code only in a ```python block."
-expected_output: "olleh"
+prompt: |
+  Write a Python function `reverse_string(s: str) -> str` that returns the
+  reverse of the input string.
+
+  Respond with a single ```python code block containing the complete solution.
+expected_output: ""
 eval:
-  exact_match:
+  pytest:
     weight: 1.0
-    target: "olleh"
-    source: demo
+    test_code: |
+      from solution import reverse_string
+
+
+      def test_basic():
+          assert reverse_string("hello") == "olleh"
+
+
+      def test_palindrome():
+          assert reverse_string("racecar") == "racecar"
+
+
+      def test_empty():
+          assert reverse_string("") == ""
+
+
+      def test_spaces():
+          assert reverse_string("ab c") == "c ba"

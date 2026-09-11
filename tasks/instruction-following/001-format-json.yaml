@@ -1,0 +1,12 @@
+﻿id: instruction-001-format-json
+title: "Exact JSON output"
+category: instruction-following
+difficulty: easy
+prompt: |
+  Reply with a single line containing exactly this JSON object and nothing
+  else: {"status": "ok", "count": 3}
+expected_output: '{"status": "ok", "count": 3}'
+eval:
+  exact_match:
+    weight: 1.0
+    target: '{"status": "ok", "count": 3}'

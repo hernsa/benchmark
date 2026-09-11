@@ -1,10 +1,15 @@
+﻿"""Evaluator registry: maps evaluator names in task YAML to score functions."""
+
 from ..models import Task
-from . import code_quality, exact_match, pytest_eval
+from . import code_quality, exact_match, final_answer, function_call, json_match, pytest_eval
 
 _EVALUATORS = {
     "exact_match": exact_match.score,
     "pytest": pytest_eval.score,
     "code_quality": code_quality.score,
+    "final_answer": final_answer.score,
+    "function_call": function_call.score,
+    "json_match": json_match.score,
 }
 
 

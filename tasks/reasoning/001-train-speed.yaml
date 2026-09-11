@@ -1,0 +1,15 @@
+﻿id: reasoning-001-train-speed
+title: "Train speed"
+category: reasoning
+difficulty: easy
+prompt: |
+  A train travels 120 kilometers in 1.5 hours. Show your reasoning, then end
+  your reply with the speed in km/h on its own line in exactly this format:
+
+  #### <answer>
+expected_output: "80"
+eval:
+  final_answer:
+    weight: 1.0
+    target: "80"
+    mode: numeric

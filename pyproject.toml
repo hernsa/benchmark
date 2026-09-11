@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agent-benchmark"
-version = "0.1.0"
+version = "0.2.0"
 description = "Simple plugin-based benchmark runner for AI coding/debugging/tool-use agents with percentage scoring."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -22,3 +22,4 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+

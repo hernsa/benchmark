@@ -1,4 +1,4 @@
-from .adapters.base import ModelAdapter
+﻿from .adapters.base import ModelAdapter
 from .evaluators import evaluate, weighted_total
 from .models import Task, TaskResult
 
@@ -15,6 +15,7 @@ def run(
             TaskResult(
                 task_id=task.id,
                 category=task.category,
+                difficulty=task.difficulty,
                 output=output,
                 scores=scores,
                 total=total,

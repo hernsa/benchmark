@@ -1,0 +1,11 @@
+id: coding-reverse-string
+title: Reverse a string function
+category: coding
+difficulty: easy
+prompt: "Write a Python function `reverse_string(s: str) -> str` that returns the reversed string. Output code only in a ```python block."
+expected_output: "olleh"
+eval:
+  exact_match:
+    weight: 1.0
+    target: "olleh"
+    source: demo

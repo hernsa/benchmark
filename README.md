@@ -6,8 +6,10 @@ Simple plugin-based benchmark runner for AI coding / debugging / tool-use agents
 
 ```bash
 pip install -e .
-benchmark list --tasks-dir tasks
-benchmark run --tasks-dir tasks --adapter echo --reports-dir reports
+benchmark tasks --adapter echo
+benchmark tasks --adapter file --opt dir=outputs
+benchmark tasks --adapter openai-compat --opt model=glm-4-flash --opt base-url=https://open.bigmodel.cn/api/paas/v4 --opt api-key-env=GLM_API_KEY
+benchmark --help
 ```
 
 ## How scoring works
@@ -17,8 +19,8 @@ Each task defines weighted evaluators (`exact_match`, `pytest`, `code_quality`).
 ## Adapters
 
 - `echo` — deterministic demo adapter (no API key, for smoke tests)
-- `file --outputs-dir outputs` — reads `<task_id>.txt` (paste any model's output, then score it)
-- `openai-compat --model ... --base-url ... --api-key-env ...` — any OpenAI-compatible endpoint (OpenAI, local servers, GLM flash endpoints exposing a compatible API). Keys come from env vars only.
+- `file` (`--opt dir=outputs`) — reads `<task_id>.txt` (paste any model's output, then score it)
+- `openai-compat` (`--opt model=... --opt base-url=... --opt api-key-env=...`) — any OpenAI-compatible endpoint (OpenAI, local servers, GLM flash endpoints exposing a compatible API). Keys come from env vars only.
 
 ## Task format
 
@@ -39,5 +41,5 @@ eval:
 
 - `src/benchmark/` — runner, loader, adapters, evaluators, report, CLI
 - `tasks/` — built-in YAML task packs
-- `config/` — example configs
-- `reports/` — generated JSON/CSV/Markdown (gitignored)
+- `examples/` — example configs (e.g. `benchmark --config examples/demo-config.yaml`)
+- `results/` — generated JSON/CSV/Markdown (gitignored)

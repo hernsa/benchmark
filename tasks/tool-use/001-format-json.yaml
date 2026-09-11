@@ -1,0 +1,11 @@
+id: tooluse-001-format-json
+title: Exact JSON formatting
+category: tool-use
+difficulty: easy
+prompt: |-
+  Answer with EXACTLY this JSON object on the last line and nothing else:
+  {"status": "ok", "count": 3}
+eval:
+  exact_match:
+    weight: 1.0
+    target: '{"status": "ok", "count": 3}'

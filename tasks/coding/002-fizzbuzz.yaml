@@ -1,0 +1,20 @@
+id: coding-002-fizzbuzz
+title: FizzBuzz function
+category: coding
+difficulty: easy
+prompt: |-
+  Write a Python function `fizzbuzz(n)` that returns a list of strings
+  for numbers 1..n where multiples of 3 become "Fizz", multiples of 5
+  become "Buzz", and multiples of both become "FizzBuzz".
+  Reply with the code in a ```python fenced block and nothing else.
+eval:
+  pytest:
+    weight: 1.0
+    test_code: |-
+      from solution import fizzbuzz
+
+      def test_basic():
+          assert fizzbuzz(5) == ["1", "2", "Fizz", "4", "Buzz"]
+
+      def test_fizzbuzz_15():
+          assert fizzbuzz(15)[14] == "FizzBuzz"

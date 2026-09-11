@@ -1,0 +1,29 @@
+id: debugging-001-offbyone
+title: Fix off-by-one in total()
+category: debugging
+difficulty: easy
+prompt: |-
+  This Python function has an off-by-one bug. Return the FIXED function
+  in a ```python fenced block and nothing else:
+
+  ```python
+  def total(items):
+      s = 0
+      for i in range(len(items) - 1):
+          s += items[i]
+      return s
+  ```
+eval:
+  pytest:
+    weight: 1.0
+    test_code: |-
+      from solution import total
+
+      def test_sums_all():
+          assert total([1, 2, 3, 4]) == 10
+
+      def test_single():
+          assert total([7]) == 7
+
+      def test_empty():
+          assert total([]) == 0

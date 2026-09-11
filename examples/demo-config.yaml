@@ -1,0 +1,6 @@
+# Example config for `benchmark run --config examples/demo-config.yaml`
+tasks:
+  - tasks
+adapter: echo
+threshold: 70.0
+out_dir: results

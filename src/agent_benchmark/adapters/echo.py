@@ -1,8 +1,9 @@
-﻿"""Echo adapter: returns canned demo outputs so the pipeline can be tested
-end-to-end without any model. Every built-in task has a correct demo answer,
-so an echo run should score 100%."""
+﻿"""Echo adapter: returns canned demo outputs for the 16 built-in tasks so the
+pipeline can be tested end-to-end without any model.
 
-from .base import ModelAdapter
+Demo-only: unknown task ids get a literal "echo:<id>" placeholder and will
+score ~0. Use the file or openai-compat adapter for real models."""
+
 
 DEMO_OUTPUTS: dict[str, str] = {
     "coding-001-reverse-string": (

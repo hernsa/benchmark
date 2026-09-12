@@ -1,0 +1,82 @@
+task_id,category,difficulty,score_pct,passed,scores,output
+coding-001-reverse-string,coding,easy,100.0,True,"{""pytest"": 100.0}","```python
+def reverse_string(s: str) -> str:
+    return s[::-1]
+```"
+coding-002-fizzbuzz,coding,easy,100.0,True,"{""pytest"": 100.0}","```python
+def fizzbuzz(n: int) -> list[str]:
+    out = []
+    for i in range(1, n + 1):
+        if i % 15 == 0:
+            out.append(""FizzBuzz"")
+        elif i % 3 == 0:
+            out.append(""Fizz"")
+        elif i % 5 == 0:
+            out.append(""Buzz"")
+        else:
+            out.append(str(i))
+    return out
+```"
+coding-003-valid-parentheses,coding,medium,100.0,True,"{""pytest"": 100.0}","```python
+def is_valid(s: str) -> bool:
+    pairs = {"")"": ""("", ""]"": ""["", ""}"": ""{""}
+    stack = []
+    for ch in s:
+        if ch in ""([{"":
+            stack.append(ch)
+        elif ch in pairs:
+            if not stack or stack.pop() != pairs[ch]:
+                return False
+    return not stack
+```"
+coding-004-binary-search,coding,medium,100.0,True,"{""pytest"": 100.0}","```python
+def binary_search(arr: list[int], target: int) -> int:
+    lo, hi = 0, len(arr) - 1
+    while lo <= hi:
+        mid = (lo + hi) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            lo = mid + 1
+        else:
+            hi = mid - 1
+    return -1
+```"
+coding-005-group-anagrams,coding,hard,100.0,True,"{""pytest"": 100.0}","```python
+def group_anagrams(words: list[str]) -> list[list[str]]:
+    buckets = {}
+    for w in words:
+        key = """".join(sorted(w))
+        buckets.setdefault(key, []).append(w)
+    groups = [sorted(g) for g in buckets.values()]
+    return sorted(groups, key=lambda g: g[0])
+```"
+debugging-001-offbyone,debugging,easy,100.0,True,"{""pytest"": 100.0}","```python
+def total(n: int) -> int:
+    return sum(range(n + 1))
+```"
+debugging-002-mutable-default,debugging,medium,100.0,True,"{""pytest"": 100.0}","```python
+def append_to(item, lst=None):
+    if lst is None:
+        lst = []
+    lst.append(item)
+    return lst
+```"
+debugging-003-swallowed-exception,debugging,hard,100.0,True,"{""pytest"": 100.0}","```python
+def parse_int(s):
+    return int(s)
+```"
+instruction-001-format-json,instruction-following,easy,100.0,True,"{""exact_match"": 100.0}","{""status"": ""ok"", ""count"": 3}"
+instruction-002-schema-json,instruction-following,medium,100.0,True,"{""json_match"": 100.0}","{""alpha"": 1, ""beta"": 2, ""gamma"": 3}"
+reasoning-001-train-speed,reasoning,easy,100.0,True,"{""final_answer"": 100.0}","Speed = distance / time = 120 / 1.5 = 80 km/h.
+
+#### 80"
+reasoning-002-discount,reasoning,medium,100.0,True,"{""final_answer"": 100.0}","Sale price: 250 * 0.8 = 200. With 10% tax: 200 * 1.1 = 220.
+
+#### 220"
+reasoning-003-ages,reasoning,hard,100.0,True,"{""final_answer"": 100.0}","Let Ben be b: 3b + 8 = 2(b + 8) -> 3b + 8 = 2b + 16 -> b = 8.
+
+#### 8"
+tooluse-001-simple-call,tool-use,easy,100.0,True,"{""function_call"": 100.0}","{""name"": ""get_weather"", ""arguments"": {""city"": ""Paris"", ""unit"": ""celsius""}}"
+tooluse-002-parallel-calls,tool-use,medium,100.0,True,"{""function_call"": 100.0}","[{""name"": ""get_weather"", ""arguments"": {""city"": ""Paris"", ""unit"": ""celsius""}}, {""name"": ""get_weather"", ""arguments"": {""city"": ""Tokyo"", ""unit"": ""celsius""}}]"
+tooluse-003-nested-args,tool-use,hard,100.0,True,"{""function_call"": 100.0}","{""name"": ""create_user"", ""arguments"": {""name"": ""Ada Lovelace"", ""address"": {""street"": ""1 Main St"", ""city"": ""London""}, ""tags"": [""admin""]}}"

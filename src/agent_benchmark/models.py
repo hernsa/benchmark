@@ -1,4 +1,6 @@
-﻿from dataclasses import dataclass, field
+﻿"""Data models shared across the benchmark."""
+
+from dataclasses import dataclass, field
 
 
 @dataclass
@@ -22,3 +24,4 @@ class TaskResult:
     scores: dict[str, float] = field(default_factory=dict)
     total: float = 0.0
     passed: bool = False
+    error: str | None = None

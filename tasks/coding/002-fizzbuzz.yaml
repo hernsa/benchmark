@@ -6,7 +6,8 @@ prompt: |
   Write a Python function `fizzbuzz(n: int) -> list[str]` that returns the
   FizzBuzz sequence from 1 to n inclusive: multiples of 3 become "Fizz",
   multiples of 5 become "Buzz", multiples of both become "FizzBuzz",
-  everything else is the number as a string.
+  everything else is the number as a string. fizzbuzz(0) returns an empty
+  list.
 
   Respond with a single ```python code block containing the complete solution.
 expected_output: ""

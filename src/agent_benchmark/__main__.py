@@ -1,4 +1,4 @@
-from benchmark.cli import app
+from agent_benchmark.cli import app
 
 if __name__ == "__main__":
     app()

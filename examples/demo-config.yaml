@@ -1,6 +1,8 @@
 # Example config for `benchmark run --config examples/demo-config.yaml`
+# CLI flags always override values set here.
 tasks:
   - tasks
 adapter: echo
 threshold: 70.0
 out_dir: results
+# fail_under: 100.0   # exit 1 when the overall score drops below this

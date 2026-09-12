@@ -5,7 +5,7 @@ difficulty: medium
 prompt: |
   Write a Python function `binary_search(arr: list[int], target: int) -> int`
   that returns the index of `target` in the sorted list `arr`, or -1 if it is
-  not present. The implementation must run in O(log n).
+  not present. Correctness is what is scored; aim for O(log n) time.
 
   Respond with a single ```python code block containing the complete solution.
 expected_output: ""

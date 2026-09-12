@@ -1,40 +1,20 @@
-﻿"""Function-call evaluation (BFCL style): tool name + argument matching.
-
-Expected config in task YAML::
-
-    function_call:
-      function: get_weather
-      args: {city: Paris, unit: celsius}
-      strict: false          # penalize extra arguments
-
-or, for parallel calls::
-
-    function_call:
-      calls:
-        - {function: get_weather, args: {city: Paris}}
-        - {function: get_weather, args: {city: Tokyo}}
-
-Scoring per call: wrong/missing tool name -> 0; otherwise
-40 (name) + 60 * (matched expected args / total expected args).
-With ``strict: true``, extra arguments shrink the argument score.
-"""
+﻿"""Function-call scoring."""
 
 import json
 import re
 
 
-def extract_json(text: str):
-    """Extract the first JSON value (object or array) from text."""
-    fence = re.search(r"```(?:json)?\s*\n(.*?)```", text, re.DOTALL)
-    if fence:
-        try:
-            return json.loads(fence.group(1).strip())
-        except json.JSONDecodeError:
-            pass
-    starts = [i for i in (text.find("{"), text.find("[")) if i != -1]
-    if not starts:
+def _try_json(text: str):
+    try:
+        return json.loads(text)
+    except (json.JSONDecodeError, ValueError):
         return None
-    start = min(starts)
+
+
+def _scan_from(text: str, start: int):
+    """Parse a balanced {..}/[..] block starting at `start`; None if invalid."""
+    open_char = text[start]
+    close_char = "}" if open_char == "{" else "]"
     depth = 0
     in_string = False
     escaped = False
@@ -54,11 +34,28 @@ def extract_json(text: str):
             depth += 1
         elif ch in "}]":
             depth -= 1
-            if depth == 0:
-                try:
-                    return json.loads(text[start : i + 1])
-                except json.JSONDecodeError:
-                    return None
+            if depth == 0 and ch == close_char:
+                return _try_json(text[start:i + 1])
+    return None
+
+
+def extract_json(text: str):
+    """Best-effort JSON extraction.
+
+    Order of attempts: fenced code blocks (last one first — models often show
+    an example before the answer), then every '{' or '[' position in the raw
+    text so prose like 'I'll call [tool] with {...}' still finds the object.
+    """
+    fences = re.findall(r"```(?:json)?\s*\n(.*?)```", text, re.DOTALL)
+    for body in reversed(fences):
+        val = _try_json(body.strip())
+        if val is not None:
+            return val
+    for i, ch in enumerate(text):
+        if ch in "{[":
+            val = _scan_from(text, i)
+            if val is not None:
+                return val
     return None
 
 
@@ -81,19 +78,24 @@ def _score_call(expected_fn, expected_args, actual, strict: bool) -> float:
 
 
 def score(task, output: str) -> float:
-    cfg = task.eval.get("function_call", {})
+    cfg = task.eval.get("function_call", {}) or {}
     strict = bool(cfg.get("strict", False))
     parsed = extract_json(output)
-
     if "calls" in cfg:
-        expected = cfg["calls"]
-        actual_list = parsed if isinstance(parsed, list) else [parsed]
+        expected_calls = cfg["calls"]
+        if isinstance(parsed, dict) and isinstance(parsed.get("calls"), list):
+            actual_list = parsed["calls"]
+        elif isinstance(parsed, list):
+            actual_list = parsed
+        else:
+            actual_list = [parsed]
         scores = []
-        for i, call in enumerate(expected):
+        for i, call in enumerate(expected_calls):
             actual = actual_list[i] if i < len(actual_list) else None
             scores.append(
                 _score_call(call.get("function"), call.get("args", {}), actual, strict)
             )
         return round(sum(scores) / len(scores), 1) if scores else 0.0
-
+    if isinstance(parsed, list) and len(parsed) == 1:
+        parsed = parsed[0]
     return _score_call(cfg.get("function"), cfg.get("args", {}), parsed, strict)

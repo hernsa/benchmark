@@ -3,4 +3,4 @@ from .echo import EchoAdapter
 from .file_adapter import FileAdapter
 from .openai_compat import OpenAICompatAdapter
 
-__all__ = ["ModelAdapter", "EchoAdapter", "FileAdapter", "OpenAICompatAdapter"]
+__all__ = ["EchoAdapter", "FileAdapter", "ModelAdapter", "OpenAICompatAdapter"]

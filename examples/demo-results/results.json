@@ -1,0 +1,249 @@
+{
+  "overall_pct": 100.0,
+  "total": 16,
+  "passed": 16,
+  "pass_rate": 100.0,
+  "by_category": {
+    "coding": {
+      "pct": 100.0,
+      "passed": 5,
+      "total": 5
+    },
+    "debugging": {
+      "pct": 100.0,
+      "passed": 3,
+      "total": 3
+    },
+    "instruction-following": {
+      "pct": 100.0,
+      "passed": 2,
+      "total": 2
+    },
+    "reasoning": {
+      "pct": 100.0,
+      "passed": 3,
+      "total": 3
+    },
+    "tool-use": {
+      "pct": 100.0,
+      "passed": 3,
+      "total": 3
+    }
+  },
+  "by_difficulty": {
+    "easy": {
+      "pct": 100.0,
+      "passed": 6,
+      "total": 6
+    },
+    "hard": {
+      "pct": 100.0,
+      "passed": 4,
+      "total": 4
+    },
+    "medium": {
+      "pct": 100.0,
+      "passed": 6,
+      "total": 6
+    }
+  },
+  "results": [
+    {
+      "task_id": "coding-001-reverse-string",
+      "category": "coding",
+      "difficulty": "easy",
+      "output": "```python\ndef reverse_string(s: str) -> str:\n    return s[::-1]\n```",
+      "scores": {
+        "pytest": 100.0
+      },
+      "total": 100.0,
+      "passed": true,
+      "error": null
+    },
+    {
+      "task_id": "coding-002-fizzbuzz",
+      "category": "coding",
+      "difficulty": "easy",
+      "output": "```python\ndef fizzbuzz(n: int) -> list[str]:\n    out = []\n    for i in range(1, n + 1):\n        if i % 15 == 0:\n            out.append(\"FizzBuzz\")\n        elif i % 3 == 0:\n            out.append(\"Fizz\")\n        elif i % 5 == 0:\n            out.append(\"Buzz\")\n        else:\n            out.append(str(i))\n    return out\n```",
+      "scores": {
+        "pytest": 100.0
+      },
+      "total": 100.0,
+      "passed": true,
+      "error": null
+    },
+    {
+      "task_id": "coding-003-valid-parentheses",
+      "category": "coding",
+      "difficulty": "medium",
+      "output": "```python\ndef is_valid(s: str) -> bool:\n    pairs = {\")\": \"(\", \"]\": \"[\", \"}\": \"{\"}\n    stack = []\n    for ch in s:\n        if ch in \"([{\":\n            stack.append(ch)\n        elif ch in pairs:\n            if not stack or stack.pop() != pairs[ch]:\n                return False\n    return not stack\n```",
+      "scores": {
+        "pytest": 100.0
+      },
+      "total": 100.0,
+      "passed": true,
+      "error": null
+    },
+    {
+      "task_id": "coding-004-binary-search",
+      "category": "coding",
+      "difficulty": "medium",
+      "output": "```python\ndef binary_search(arr: list[int], target: int) -> int:\n    lo, hi = 0, len(arr) - 1\n    while lo <= hi:\n        mid = (lo + hi) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            lo = mid + 1\n        else:\n            hi = mid - 1\n    return -1\n```",
+      "scores": {
+        "pytest": 100.0
+      },
+      "total": 100.0,
+      "passed": true,
+      "error": null
+    },
+    {
+      "task_id": "coding-005-group-anagrams",
+      "category": "coding",
+      "difficulty": "hard",
+      "output": "```python\ndef group_anagrams(words: list[str]) -> list[list[str]]:\n    buckets = {}\n    for w in words:\n        key = \"\".join(sorted(w))\n        buckets.setdefault(key, []).append(w)\n    groups = [sorted(g) for g in buckets.values()]\n    return sorted(groups, key=lambda g: g[0])\n```",
+      "scores": {
+        "pytest": 100.0
+      },
+      "total": 100.0,
+      "passed": true,
+      "error": null
+    },
+    {
+      "task_id": "debugging-001-offbyone",
+      "category": "debugging",
+      "difficulty": "easy",
+      "output": "```python\ndef total(n: int) -> int:\n    return sum(range(n + 1))\n```",
+      "scores": {
+        "pytest": 100.0
+      },
+      "total": 100.0,
+      "passed": true,
+      "error": null
+    },
+    {
+      "task_id": "debugging-002-mutable-default",
+      "category": "debugging",
+      "difficulty": "medium",
+      "output": "```python\ndef append_to(item, lst=None):\n    if lst is None:\n        lst = []\n    lst.append(item)\n    return lst\n```",
+      "scores": {
+        "pytest": 100.0
+      },
+      "total": 100.0,
+      "passed": true,
+      "error": null
+    },
+    {
+      "task_id": "debugging-003-swallowed-exception",
+      "category": "debugging",
+      "difficulty": "hard",
+      "output": "```python\ndef parse_int(s):\n    return int(s)\n```",
+      "scores": {
+        "pytest": 100.0
+      },
+      "total": 100.0,
+      "passed": true,
+      "error": null
+    },
+    {
+      "task_id": "instruction-001-format-json",
+      "category": "instruction-following",
+      "difficulty": "easy",
+      "output": "{\"status\": \"ok\", \"count\": 3}",
+      "scores": {
+        "exact_match": 100.0
+      },
+      "total": 100.0,
+      "passed": true,
+      "error": null
+    },
+    {
+      "task_id": "instruction-002-schema-json",
+      "category": "instruction-following",
+      "difficulty": "medium",
+      "output": "{\"alpha\": 1, \"beta\": 2, \"gamma\": 3}",
+      "scores": {
+        "json_match": 100.0
+      },
+      "total": 100.0,
+      "passed": true,
+      "error": null
+    },
+    {
+      "task_id": "reasoning-001-train-speed",
+      "category": "reasoning",
+      "difficulty": "easy",
+      "output": "Speed = distance / time = 120 / 1.5 = 80 km/h.\n\n#### 80",
+      "scores": {
+        "final_answer": 100.0
+      },
+      "total": 100.0,
+      "passed": true,
+      "error": null
+    },
+    {
+      "task_id": "reasoning-002-discount",
+      "category": "reasoning",
+      "difficulty": "medium",
+      "output": "Sale price: 250 * 0.8 = 200. With 10% tax: 200 * 1.1 = 220.\n\n#### 220",
+      "scores": {
+        "final_answer": 100.0
+      },
+      "total": 100.0,
+      "passed": true,
+      "error": null
+    },
+    {
+      "task_id": "reasoning-003-ages",
+      "category": "reasoning",
+      "difficulty": "hard",
+      "output": "Let Ben be b: 3b + 8 = 2(b + 8) -> 3b + 8 = 2b + 16 -> b = 8.\n\n#### 8",
+      "scores": {
+        "final_answer": 100.0
+      },
+      "total": 100.0,
+      "passed": true,
+      "error": null
+    },
+    {
+      "task_id": "tooluse-001-simple-call",
+      "category": "tool-use",
+      "difficulty": "easy",
+      "output": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"Paris\", \"unit\": \"celsius\"}}",
+      "scores": {
+        "function_call": 100.0
+      },
+      "total": 100.0,
+      "passed": true,
+      "error": null
+    },
+    {
+      "task_id": "tooluse-002-parallel-calls",
+      "category": "tool-use",
+      "difficulty": "medium",
+      "output": "[{\"name\": \"get_weather\", \"arguments\": {\"city\": \"Paris\", \"unit\": \"celsius\"}}, {\"name\": \"get_weather\", \"arguments\": {\"city\": \"Tokyo\", \"unit\": \"celsius\"}}]",
+      "scores": {
+        "function_call": 100.0
+      },
+      "total": 100.0,
+      "passed": true,
+      "error": null
+    },
+    {
+      "task_id": "tooluse-003-nested-args",
+      "category": "tool-use",
+      "difficulty": "hard",
+      "output": "{\"name\": \"create_user\", \"arguments\": {\"name\": \"Ada Lovelace\", \"address\": {\"street\": \"1 Main St\", \"city\": \"London\"}, \"tags\": [\"admin\"]}}",
+      "scores": {
+        "function_call": 100.0
+      },
+      "total": 100.0,
+      "passed": true,
+      "error": null
+    }
+  ],
+  "meta": {
+    "adapter": "echo",
+    "threshold": 70.0,
+    "ran_at": "2026-09-11T23:56:43.084153+00:00"
+  }
+}

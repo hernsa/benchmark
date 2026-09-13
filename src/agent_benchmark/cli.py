@@ -15,7 +15,10 @@ from rich.table import Table
 
 from .adapters.echo import DEMO_OUTPUTS, EchoAdapter
 from .adapters.file_adapter import FileAdapter
+from .adapters.opencode import OpencodeAdapter, list_opencode_models
 from .adapters.openai_compat import OpenAICompatAdapter
+from .compare import compare_models
+from .charts import save_comparison_png
 from .loader import load_tasks
 from .report import summarize
 from .runner import run as run_tasks
@@ -58,7 +61,19 @@ def _build_adapter(kind: str, opts: dict):
             )
         except (TypeError, ValueError) as exc:
             raise typer.BadParameter(f"Invalid adapter option: {exc}") from exc
-    raise typer.BadParameter(f"Unknown adapter: {kind} (echo|file|openai-compat)")
+    if kind in ("opencode", "oc"):
+        try:
+            return OpencodeAdapter(
+                model_ref=opts.get("model", ""),
+                config_path=opts.get("config"),
+                timeout=float(opts.get("timeout", "120")),
+                temperature=float(opts.get("temperature", "0")),
+                max_retries=int(opts.get("max-retries", "3")),
+                backoff=float(opts.get("backoff", "1.0")),
+            )
+        except (TypeError, ValueError) as exc:
+            raise typer.BadParameter(f"Invalid adapter option: {exc}") from exc
+    raise typer.BadParameter(f"Unknown adapter: {kind} (echo|file|openai-compat|opencode)")
 
 
 def _load_config(path: str | None) -> dict:
@@ -158,7 +173,7 @@ def _write_csv(summary: dict, path: Path) -> None:
 @app.command()
 def run(
     tasks: list[str] = typer.Argument(None, help="Task YAML files or dirs."),
-    adapter: str = typer.Option(None, help="Adapter: echo|file|openai-compat."),
+    adapter: str = typer.Option(None, help="Adapter: echo|file|openai-compat|opencode."),
     opt: list[str] = typer.Option([], "--opt", help="Adapter option as key=value (repeatable)."),
     threshold: float = typer.Option(None, help="Pass threshold (0-100)."),
     out_dir: str = typer.Option(None, help="Directory for reports."),
@@ -256,3 +271,107 @@ def list_tasks(
         table.add_row(t.id, t.category, t.difficulty, evals)
     console.print(table)
     console.print(f"[green]{len(loaded)} tasks[/green]")
+
+
+@app.command("models")
+def list_models(
+    config_path: str = typer.Option(None, "--config-path", help="Path to opencode.jsonc."),
+):
+    """List provider/model refs from opencode.jsonc (e.g. xpiki/claude-sonnet-5)."""
+    _setup_logging()
+    try:
+        refs = list_opencode_models(config_path)
+    except (OSError, ValueError) as exc:
+        console.print(f"[red]{exc}[/red]")
+        raise typer.Exit(1)
+    table = Table(title="opencode models")
+    table.add_column("Model ref", style="cyan")
+    for r in refs:
+        table.add_row(r)
+    console.print(table)
+    console.print(f"[green]{len(refs)} models[/green]")
+
+
+def _write_comparison_markdown(comparison: dict, out: Path) -> None:
+    order = comparison["model_order"]
+    models = comparison["models"]
+    lines = ["# Model Comparison", ""]
+    lines.append("| Model | Overall % | Pass rate % | Passed | Total |")
+    lines.append("|---|---|---|---|---|")
+    for m in order:
+        s = models[m]
+        lines.append(f"| `{m}` | {s['overall_pct']} | {s['pass_rate']} | {s['passed']} | {s['total']} |")
+    cats = sorted({c for m in order for c in models[m].get("by_category", {})})
+    if cats:
+        lines += ["", "## By category", "",
+                  "| Category | " + " | ".join(f"`{m}`" for m in order) + " |",
+                  "|" + "|".join(["---"] * (len(order) + 1)) + "|"]
+        for c in cats:
+            vals = [str(models[m].get("by_category", {}).get(c, {}).get("pct", 0.0))
+                    for m in order]
+            lines.append(f"| {c} | " + " | ".join(vals) + " |")
+    diffs = sorted({d for m in order for d in models[m].get("by_difficulty", {})})
+    if diffs:
+        lines += ["", "## By difficulty", "",
+                  "| Difficulty | " + " | ".join(f"`{m}`" for m in order) + " |",
+                  "|" + "|".join(["---"] * (len(order) + 1)) + "|"]
+        for d in diffs:
+            vals = [str(models[m].get("by_difficulty", {}).get(d, {}).get("pct", 0.0))
+                    for m in order]
+            lines.append(f"| {d} | " + " | ".join(vals) + " |")
+    lines += ["", "![comparison](comparison.png)", ""]
+    (out / "REPORT.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+@app.command("compare")
+def compare(
+    models: str = typer.Option(..., "--models", help="Comma-separated opencode refs, e.g. 'xpiki/claude-sonnet-5,vyceai/deepseek-v4-flash'."),
+    tasks: list[str] = typer.Argument(None, help="Task YAML files or dirs."),
+    threshold: float = typer.Option(70.0, help="Pass threshold (0-100)."),
+    out_dir: str = typer.Option("results/compare", help="Directory for comparison reports."),
+    tag: str = typer.Option(None, help="Subdirectory under out-dir for this run."),
+    config_path: str = typer.Option(None, "--config-path", help="Path to opencode.jsonc."),
+    temperature: float = typer.Option(0.0, help="Sampling temperature."),
+    timeout: float = typer.Option(120.0, help="Request timeout (seconds)."),
+):
+    """Run the same tasks against several opencode models and chart the winner."""
+    _setup_logging()
+    refs = [m.strip() for m in models.split(",") if m.strip()]
+    if len(refs) < 2:
+        console.print("[red]--models needs at least 2 comma-separated refs.[/red]")
+        raise typer.Exit(1)
+    task_paths = tasks or ["tasks"]
+    loaded = load_tasks(task_paths)
+    if not loaded:
+        console.print("[red]No tasks found.[/red]")
+        raise typer.Exit(1)
+    adapters = []
+    for ref in refs:
+        try:
+            adapters.append(OpencodeAdapter(ref, config_path=config_path,
+                                            timeout=timeout, temperature=temperature))
+        except (OSError, ValueError) as exc:
+            console.print(f"[red]{exc}[/red]")
+            raise typer.Exit(1)
+    out = Path(out_dir)
+    if tag:
+        out = out / tag
+    comparison = compare_models(loaded, adapters, threshold=threshold)
+    out.mkdir(parents=True, exist_ok=True)
+    (out / "comparison.json").write_text(json.dumps(comparison, indent=2), encoding="utf-8")
+    try:
+        png = save_comparison_png(comparison, out / "comparison.png")
+    except ImportError:
+        console.print("[red]matplotlib is required: pip install matplotlib[/red]")
+        raise typer.Exit(1)
+    _write_comparison_markdown(comparison, out)
+    table = Table(title="Model comparison — overall %")
+    table.add_column("Model", style="cyan")
+    table.add_column("Overall %", justify="right")
+    table.add_column("Pass rate %", justify="right")
+    for m in comparison["model_order"]:
+        s = comparison["models"][m]
+        table.add_row(m, f"{s['overall_pct']:.1f}", f"{s['pass_rate']:.1f}")
+    console.print(table)
+    console.print(f"[green]Comparison saved to {out}/ (comparison.png)[/green]")
+    _ = png

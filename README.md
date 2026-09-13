@@ -28,7 +28,22 @@ benchmark run --adapter file --opt dir=outputs
 benchmark run --adapter openai-compat \
   --opt model=gpt-4o-mini --opt base-url=https://api.openai.com/v1 \
   --opt api-key-env=OPENAI_API_KEY
+
+# Use models straight from your opencode.jsonc (keys come from the file)
+benchmark models
+benchmark run --adapter opencode --opt model=xpiki/claude-sonnet-5
 ```
+
+## Comparing models (leaderboard image)
+
+```bash
+# 2+ opencode models, same tasks, one PNG with 4 panels
+benchmark compare --models xpiki/claude-sonnet-5,vyceai/deepseek-v4-flash
+benchmark compare --models xpiki/claude-opus-5,xpiki/claude-sonnet-5,vyceai/deepseek-v4-flash --tag nightly
+```
+
+Writes to `results/compare/`: `comparison.json`, `comparison.png` (overall,
+by-category, by-difficulty, pass-rate panels), and `REPORT.md`.
 
 Reports are written to `results/`: `results.json` (includes raw model
 outputs), `REPORT.md`, and `results.csv`. Use `--out-dir` to change the

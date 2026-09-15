@@ -1,4 +1,4 @@
-﻿"""Run tasks against a model adapter and collect results."""
+"""Run tasks against a model adapter and collect results."""
 
 import logging
 

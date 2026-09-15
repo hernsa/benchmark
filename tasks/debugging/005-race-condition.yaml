@@ -1,0 +1,16 @@
+id: debugging-005-race-condition
+title: Race condition in counter
+category: debugging
+difficulty: hard
+prompt: "The following function has a race condition bug that causes incorrect\ncounts when called from multiple threads simultaneously.\n\ndef increment_counter():\n    global counter\n    current = counter\
+  \  # Bug: non-atomic read-modify-write\n    counter = current + 1\n    return counter\n\nFix the race condition so the counter is always incremented atomically.\nUse threading.Lock for synchronization.\n\
+  \nAssume `counter = 0` is set at module level and import it as:\nfrom solution import increment_counter, set_counter\n\nRespond with a single ```python code block containing the FIXED solution.\nInclude\
+  \ a set_counter(n) function to reset the counter for testing.\n"
+expected_output: ''
+eval:
+  pytest:
+    weight: 1.0
+    test_code: "import threading\nfrom solution import increment_counter, set_counter, get_counter\n\ndef test_single_increment():\n    set_counter(0)\n    result = increment_counter()\n    assert result\
+      \ == 1\n\ndef test_concurrent_increment():\n    set_counter(0)\n    threads = [threading.Thread(target=increment_counter) for _ in range(100)]\n    for t in threads:\n        t.start()\n    for t\
+      \ in threads:\n        t.join()\n    assert get_counter() == 100\n\ndef test_set_then_burst():\n    set_counter(0)\n    result = 0\n    for _ in range(10):\n        result = increment_counter()\n\
+      \    assert result == 10\n"

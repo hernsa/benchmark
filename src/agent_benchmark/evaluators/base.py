@@ -1,4 +1,4 @@
-﻿"""Shared helpers for evaluators."""
+"""Shared helpers for evaluators."""
 
 import re
 

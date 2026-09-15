@@ -1,0 +1,44 @@
+id: coding-007-matrix-multiply
+title: Matrix multiplication with sparse and validation
+category: coding
+difficulty: hard
+prompt: 'Write a Python function `matmul(a: list[list[int]], b: list[list[int]]) -> list[list[int]]`
+
+  that multiplies two matrices a and b.
+
+
+  Requirements:
+
+  - Matrix dimensions: a is m×n, b is n×p, result is m×p
+
+  - Empty input matrix (either a or b is empty list) returns []
+
+  - Matrices with empty rows (e.g., [[]]) should return []
+
+  - Incompatible dimensions (columns of a != rows of b) returns None
+
+  - Result should be a new list of lists (don''t mutate inputs)
+
+  - All elements guaranteed to be integers
+
+  - Single element matrices supported: matmul([[3]], [[4]]) == [[12]]
+
+
+  Example: matmul([[1,2],[3,4]], [[5,6],[7,8]]) = [[19,22],[43,50]]
+
+
+  Respond with a single ```python code block containing the complete solution.
+
+  '
+expected_output: ''
+eval:
+  pytest:
+    weight: 1.0
+    test_code: "from solution import matmul\n\ndef test_2x2():\n    assert matmul([[1,2],[3,4]], [[5,6],[7,8]]) == [[19,22],[43,50]]\n\ndef test_identity():\n    assert matmul([[1,0],[0,1]], [[5,6],[7,8]])\
+      \ == [[5,6],[7,8]]\n\ndef test_non_square():\n    # 2x3 * 3x2 = 2x2\n    assert matmul([[1,2,3],[4,5,6]], [[1,2],[3,4],[5,6]]) == [[22,28],[49,64]]\n\ndef test_empty():\n    assert matmul([], [[1]])\
+      \ == []\n    assert matmul([[1]], []) == []\n    assert matmul([]) == []\n    assert matmul([[]], [[]]) == []\n\ndef test_incompatible():\n    assert matmul([[1,2,3]], [[1,2]]) is None  # 1x3 * 2x2\
+      \ invalid\n\ndef test_single():\n    assert matmul([[3]], [[4]]) == [[12]]\n\ndef test_1x3_by_3x1():\n    # 1x3 * 3x1 = 1x1\n    assert matmul([[1,2,3]], [[4],[5],[6]]) == [[32]]\n\ndef test_column_vector():\n\
+      \    # 3x1 * 1x3 = 3x3\n    assert matmul([[1],[2],[3]], [[4,5,6]]) == [[4,5,6],[8,10,12],[12,15,18]]\n\ndef test_does_not_mutate():\n    original = [[1,2],[3,4]]\n    matmul(original, [[1,0],[0,1]])\n\
+      \    assert original == [[1,2],[3,4]]\n\ndef test_3x3():\n    assert matmul([[1, 2, 3], [4, 5, 6], [7, 8, 9]], [[9, 8, 7], [6, 5, 4], [3, 2, 1]]) == [[30, 24, 18], [84, 69, 54], [138, 114, 90]]\n\n\
+      def test_zeros():\n    assert matmul([[0, 0], [0, 0]], [[1, 2], [3, 4]]) == [[0, 0], [0, 0]]\n\ndef test_negatives():\n    assert matmul([[-1, 2], [3, -4]], [[5, -6], [-7, 8]]) == [[-19, 22], [43,\
+      \ -50]]\n\ndef test_3x2_by_2x4():\n    assert matmul([[1, 2], [3, 4], [5, 6]], [[1, 2, 3, 4], [5, 6, 7, 8]]) == [[11, 14, 17, 20], [23, 30, 37, 44], [35, 46, 57, 68]]\n"

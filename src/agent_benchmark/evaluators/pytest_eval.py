@@ -1,4 +1,4 @@
-﻿"""Pytest-based code scoring.
+"""Pytest-based code scoring.
 
 Runs the model's code in an isolated temp directory with a scrubbed
 environment. Model-generated code is still executed on the host — see the

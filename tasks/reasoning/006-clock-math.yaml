@@ -1,0 +1,19 @@
+id: reasoning-006-clock-math
+title: "Clock angle problem"
+category: reasoning
+difficulty: hard
+prompt: |
+  At what time between 3:00 and 4:00 will the hour and minute hands
+  of a clock form a 90-degree angle? Give the time as:
+  #### HH:MM:SS (using 24-hour format)
+
+  Hint: At 3:00, hour hand is at 90 degrees. Minute hand at 0 degrees.
+  The hour hand also moves as minutes pass.
+
+  Respond with your answer in the specified format.
+expected_output: ""
+eval:
+  final_answer:
+    weight: 1.0
+    mode: exact
+    target: "15:32:44"

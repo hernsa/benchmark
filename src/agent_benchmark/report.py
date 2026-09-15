@@ -1,4 +1,4 @@
-﻿"""Summarize TaskResults into report structures."""
+"""Summarize TaskResults into report structures."""
 
 
 def _group(results, key: str) -> dict:

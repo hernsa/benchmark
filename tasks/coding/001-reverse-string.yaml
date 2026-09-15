@@ -1,31 +1,20 @@
-﻿id: coding-001-reverse-string
-title: "Reverse a string"
+id: coding-001-reverse-string
+title: Reverse a string
 category: coding
 difficulty: easy
-prompt: |
-  Write a Python function `reverse_string(s: str) -> str` that returns the
+prompt: 'Write a Python function `reverse_string(s: str) -> str` that returns the
+
   reverse of the input string.
 
+
   Respond with a single ```python code block containing the complete solution.
-expected_output: ""
+
+  '
+expected_output: ''
 eval:
   pytest:
     weight: 1.0
-    test_code: |
-      from solution import reverse_string
-
-
-      def test_basic():
-          assert reverse_string("hello") == "olleh"
-
-
-      def test_palindrome():
-          assert reverse_string("racecar") == "racecar"
-
-
-      def test_empty():
-          assert reverse_string("") == ""
-
-
-      def test_spaces():
-          assert reverse_string("ab c") == "c ba"
+    test_code: "from solution import reverse_string\n\n\ndef test_basic():\n    assert reverse_string(\"hello\") == \"olleh\"\n\n\ndef test_palindrome():\n    assert reverse_string(\"racecar\") == \"racecar\"\
+      \n\n\ndef test_empty():\n    assert reverse_string(\"\") == \"\"\n\n\ndef test_spaces():\n    assert reverse_string(\"ab c\") == \"c ba\"\n\ndef test_unicode():\n    assert reverse_string(\"h\\u00e9llo\"\
+      ) == \"oll\\u00e9h\"\n\ndef test_emoji():\n    assert reverse_string(\"ab\\U0001F600cd\") == \"dc\\U0001F600ba\"\n\ndef test_whitespace_chars():\n    assert reverse_string(\"a\\tb\\nc\") == \"c\\\
+      nb\\ta\"\n\ndef test_long_repeated():\n    assert reverse_string(\"abc\" * 100) == \"cba\" * 100\n\ndef test_single_char():\n    assert reverse_string(\"x\") == \"x\"\n"

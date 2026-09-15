@@ -1,4 +1,4 @@
-﻿from agent_benchmark.compare import compare_models
+from agent_benchmark.compare import compare_models
 from agent_benchmark.charts import save_comparison_png
 from agent_benchmark.models import Task, TaskResult
 

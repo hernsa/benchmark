@@ -1,0 +1,18 @@
+id: debugging-006-deepcopy-bug
+title: Mutable nested copy bug
+category: debugging
+difficulty: hard
+prompt: "The following function has a bug where modifying the returned copy\nalso modifies the original dictionary. The bug only manifests with\nnested structures (lists/dicts inside the dict).\n\nimport\
+  \ copy\n\ndef clone_config(cfg):\n    # Bug: shallow copy of nested dicts is modified by reference\n    new_cfg = copy.copy(cfg)\n    return new_cfg\n\nFix the bug so that cloning a config and then modifying\
+  \ the clone\ndoes not affect the original.\n\nRespond with a single ```python code block containing the FIXED solution.\n"
+expected_output: ''
+eval:
+  pytest:
+    weight: 1.0
+    test_code: "from solution import clone_config\nimport copy\n\ndef test_shallow_modification():\n    original = {\"a\": 1, \"b\": 2}\n    clone = clone_config(original)\n    clone[\"a\"] = 999\n    assert\
+      \ original[\"a\"] == 1  # Original unchanged\n\ndef test_nested_modification():\n    original = {\"nested\": {\"inner\": 1, \"list_val\": [1, 2, 3]}}\n    clone = clone_config(original)\n    clone[\"\
+      nested\"][\"inner\"] = 999\n    clone[\"nested\"][\"list_val\"].append(4)\n    assert original[\"nested\"][\"inner\"] == 1  # Must be unchanged\n    assert original[\"nested\"][\"list_val\"] == [1,\
+      \ 2, 3]  # Must be unchanged\n\ndef test_deep_nested():\n    original = {\"level1\": {\"level2\": {\"level3\": [1, 2, {\"deep\": \"value\"}]}}}\n    clone = clone_config(original)\n    clone[\"level1\"\
+      ][\"level2\"][\"level3\"].append(\"x\")\n    clone[\"level1\"][\"level2\"][\"value\"] = \"changed\"\n    assert \"changed\" not in str(original)  # Original untouched\n\ndef test_clone_independent():\n\
+      \    original = {\"a\": [1, 2]}\n    cloned = clone_config(original)\n    cloned[\"a\"].append(3)\n    assert original == {\"a\": [1, 2]}\n\ndef test_original_change_safe():\n    original = {\"a\"\
+      : {\"b\": 1}}\n    cloned = clone_config(original)\n    original[\"a\"][\"b\"] = 99\n    assert cloned == {\"a\": {\"b\": 1}}\n"

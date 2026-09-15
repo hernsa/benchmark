@@ -1,31 +1,26 @@
-﻿id: coding-005-group-anagrams
-title: "Group anagrams"
+id: coding-005-group-anagrams
+title: Group anagrams
 category: coding
 difficulty: hard
-prompt: |
-  Write a Python function `group_anagrams(words: list[str]) -> list[list[str]]`
+prompt: 'Write a Python function `group_anagrams(words: list[str]) -> list[list[str]]`
+
   that groups anagrams together. For deterministic output: sort the words
+
   inside each group alphabetically, then sort the list of groups by their
+
   first element.
 
+
   Respond with a single ```python code block containing the complete solution.
-expected_output: ""
+
+  '
+expected_output: ''
 eval:
   pytest:
     weight: 1.0
-    test_code: |
-      from solution import group_anagrams
-
-
-      def test_standard():
-          words = ["eat", "tea", "tan", "ate", "nat", "bat"]
-          expected = [["ate", "eat", "tea"], ["bat"], ["nat", "tan"]]
-          assert group_anagrams(words) == expected
-
-
-      def test_empty():
-          assert group_anagrams([]) == []
-
-
-      def test_single():
-          assert group_anagrams(["a"]) == [["a"]]
+    test_code: "from solution import group_anagrams\n\n\ndef test_standard():\n    words = [\"eat\", \"tea\", \"tan\", \"ate\", \"nat\", \"bat\"]\n    expected = [[\"ate\", \"eat\", \"tea\"], [\"bat\"],\
+      \ [\"nat\", \"tan\"]]\n    assert group_anagrams(words) == expected\n\n\ndef test_empty():\n    assert group_anagrams([]) == []\n\n\ndef test_single():\n    assert group_anagrams([\"a\"]) == [[\"\
+      a\"]]\n\ndef test_duplicates_kept():\n    assert group_anagrams([\"eat\", \"tea\", \"eat\"]) == [[\"eat\", \"eat\", \"tea\"]]\n\ndef test_no_anagrams():\n    assert group_anagrams([\"abc\", \"def\"\
+      , \"ghi\"]) == [[\"abc\"], [\"def\"], [\"ghi\"]]\n\ndef test_all_anagrams():\n    assert group_anagrams([\"abc\", \"bca\", \"cab\"]) == [[\"abc\", \"bca\", \"cab\"]]\n\ndef test_empty_strings():\n\
+      \    assert group_anagrams([\"\", \"\"]) == [[\"\", \"\"]]\n\ndef test_case_sensitive():\n    assert group_anagrams([\"AbA\", \"aba\", \"aab\"]) == [[\"AbA\"], [\"aab\", \"aba\"]]\n\ndef test_mixed_set():\n\
+      \    words = [\"listen\", \"silent\", \"enlist\", \"hello\", \"world\"]\n    assert group_anagrams(words) == [[\"enlist\", \"listen\", \"silent\"], [\"hello\"], [\"world\"]]\n"

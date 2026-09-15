@@ -1,4 +1,4 @@
-﻿"""Evaluator registry: each configured evaluator maps to score(task, output) -> 0..100."""
+"""Evaluator registry: each configured evaluator maps to score(task, output) -> 0..100."""
 
 import logging
 

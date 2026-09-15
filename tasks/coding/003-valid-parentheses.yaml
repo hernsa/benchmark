@@ -1,44 +1,23 @@
-﻿id: coding-003-valid-parentheses
-title: "Valid parentheses"
+id: coding-003-valid-parentheses
+title: Valid parentheses
 category: coding
 difficulty: medium
-prompt: |
-  Write a Python function `is_valid(s: str) -> bool` that returns True if the
-  input string of brackets '(', ')', '[', ']', '{', '}' is balanced and
+prompt: 'Write a Python function `is_valid(s: str) -> bool` that returns True if the
+
+  input string of brackets ''('', '')'', ''['', '']'', ''{'', ''}'' is balanced and
+
   correctly nested, False otherwise. An empty string is valid.
 
+
   Respond with a single ```python code block containing the complete solution.
-expected_output: ""
+
+  '
+expected_output: ''
 eval:
   pytest:
     weight: 1.0
-    test_code: |
-      from solution import is_valid
-
-
-      def test_simple():
-          assert is_valid("()") is True
-
-
-      def test_mixed_ok():
-          assert is_valid("()[]{}") is True
-
-
-      def test_mismatch():
-          assert is_valid("(]") is False
-
-
-      def test_interleaved():
-          assert is_valid("([)]") is False
-
-
-      def test_nested():
-          assert is_valid("{[]}") is True
-
-
-      def test_empty():
-          assert is_valid("") is True
-
-
-      def test_unclosed():
-          assert is_valid("(") is False
+    test_code: "from solution import is_valid\n\n\ndef test_simple():\n    assert is_valid(\"()\") is True\n\n\ndef test_mixed_ok():\n    assert is_valid(\"()[]{}\") is True\n\n\ndef test_mismatch():\n\
+      \    assert is_valid(\"(]\") is False\n\n\ndef test_interleaved():\n    assert is_valid(\"([)]\") is False\n\n\ndef test_nested():\n    assert is_valid(\"{[]}\") is True\n\n\ndef test_empty():\n \
+      \   assert is_valid(\"\") is True\n\n\ndef test_unclosed():\n    assert is_valid(\"(\") is False\n\ndef test_deep_nesting():\n    assert is_valid(\"(\" * 50 + \")\" * 50) is True\n\ndef test_closers_first():\n\
+      \    assert is_valid(\")(\") is False\n\ndef test_repeated_valid():\n    assert is_valid(\"({[]})\" * 10) is True\n\ndef test_each_pair():\n    assert is_valid(\"()\") is True\n    assert is_valid(\"\
+      []\") is True\n    assert is_valid(\"{}\") is True\n\ndef test_unclosed_tail():\n    assert is_valid(\"(()\") is False\n"

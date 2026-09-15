@@ -1,0 +1,19 @@
+id: reasoning-005-optimization
+title: "Optimization with constraints"
+category: reasoning
+difficulty: hard
+prompt: |
+  A factory makes two products: A and B.
+  - Product A: profit 40/unit, takes 2 hrs assembly + 1 hr paint
+  - Product B: profit 30/unit, takes 1 hr assembly + 3 hr paint
+  - Available: 100 hrs assembly, 120 hrs paint
+
+  How many of each product should be made to maximize profit?
+  Give the MAXIMUM profit as:
+  #### <number>
+expected_output: ""
+eval:
+  final_answer:
+    weight: 1.0
+    mode: numeric
+    target: 2280

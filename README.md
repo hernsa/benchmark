@@ -135,7 +135,7 @@ eval:
 YAML file may contain a single task or a list of tasks; duplicate ids keep
 the first occurrence with a warning.
 
-## Built-in task packs (16 tasks)
+## Built-in task packs (28 tasks)
 
 | Pack | Tasks | Difficulty spread |
 | --- | --- | --- |
@@ -149,7 +149,7 @@ the first occurrence with a warning.
 
 | Adapter | What it does |
 | --- | --- |
-| `echo` | Returns canned correct answers for the 16 built-in tasks — verifies the harness itself. Demo-only: unknown task ids get `echo:<id>` and score ~0 (a warning is logged). |
+| `echo` | Returns canned correct answers for the 28 built-in tasks — verifies the harness itself. Demo-only: unknown task ids get `echo:<id>` and score ~0 (a warning is logged). |
 | `file` | Reads `<task_id>.txt` from a directory (`--opt dir=...`) — score outputs you saved elsewhere. Missing files score 0 with a warning. |
 | `openai-compat` | Calls any OpenAI-compatible chat completions endpoint (OpenAI, vLLM, Ollama, ...). |
 

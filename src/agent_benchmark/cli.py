@@ -1,4 +1,4 @@
-﻿"""Command-line interface for the benchmark runner."""
+"""Command-line interface for the benchmark runner."""
 
 import csv
 import importlib.util

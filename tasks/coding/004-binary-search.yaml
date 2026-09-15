@@ -1,36 +1,24 @@
-﻿id: coding-004-binary-search
-title: "Binary search"
+id: coding-004-binary-search
+title: Binary search
 category: coding
 difficulty: medium
-prompt: |
-  Write a Python function `binary_search(arr: list[int], target: int) -> int`
+prompt: 'Write a Python function `binary_search(arr: list[int], target: int) -> int`
+
   that returns the index of `target` in the sorted list `arr`, or -1 if it is
+
   not present. Correctness is what is scored; aim for O(log n) time.
 
+
   Respond with a single ```python code block containing the complete solution.
-expected_output: ""
+
+  '
+expected_output: ''
 eval:
   pytest:
     weight: 1.0
-    test_code: |
-      from solution import binary_search
-
-
-      def test_found():
-          assert binary_search([1, 3, 5, 7, 9], 5) == 2
-
-
-      def test_missing():
-          assert binary_search([1, 3, 5, 7, 9], 4) == -1
-
-
-      def test_empty():
-          assert binary_search([], 1) == -1
-
-
-      def test_first():
-          assert binary_search([1, 3, 5, 7, 9], 1) == 0
-
-
-      def test_last():
-          assert binary_search([1, 3, 5, 7, 9], 9) == 4
+    test_code: "from solution import binary_search\n\n\ndef test_found():\n    assert binary_search([1, 3, 5, 7, 9], 5) == 2\n\n\ndef test_missing():\n    assert binary_search([1, 3, 5, 7, 9], 4) == -1\n\
+      \n\ndef test_empty():\n    assert binary_search([], 1) == -1\n\n\ndef test_first():\n    assert binary_search([1, 3, 5, 7, 9], 1) == 0\n\n\ndef test_last():\n    assert binary_search([1, 3, 5, 7,\
+      \ 9], 9) == 4\n\ndef test_negatives():\n    assert binary_search([-9, -4, -1, 0, 3], -4) == 1\n\ndef test_large_hit():\n    arr = list(range(0, 2000, 2))\n    assert binary_search(arr, 1334) == 667\n\
+      \ndef test_large_miss():\n    arr = list(range(0, 2000, 2))\n    assert binary_search(arr, 1335) == -1\n\ndef test_two_elem():\n    assert binary_search([1, 2], 1) == 0\n    assert binary_search([1,\
+      \ 2], 2) == 1\n    assert binary_search([1, 2], 3) == -1\n\ndef test_out_of_bounds():\n    assert binary_search([1, 3, 5, 7, 9], 0) == -1\n    assert binary_search([1, 3, 5, 7, 9], 10) == -1\n\ndef\
+      \ test_even_length():\n    assert binary_search([1, 2, 3, 4], 4) == 3\n"

@@ -1,4 +1,4 @@
-﻿"""Final-answer scoring (regex extraction, numeric or text comparison)."""
+"""Final-answer scoring (regex extraction, numeric or text comparison)."""
 
 import re
 

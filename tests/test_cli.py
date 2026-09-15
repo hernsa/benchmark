@@ -45,7 +45,7 @@ def test_cli_run_echo(tmp_path):
 def test_cli_list_command():
     result = runner.invoke(app, ["list"])
     assert result.exit_code == 0, result.output
-    assert "16 tasks" in result.output
+    assert "28 tasks" in result.output
 
 
 def test_cli_config_precedence_cli_wins(tmp_path):

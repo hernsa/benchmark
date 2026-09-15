@@ -1,4 +1,4 @@
-﻿"""Data models shared across the benchmark."""
+"""Data models shared across the benchmark."""
 
 from dataclasses import dataclass, field
 

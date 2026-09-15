@@ -1,0 +1,38 @@
+id: agentic-001-multi-step
+title: "Multi-step file processing"
+category: agentic
+difficulty: hard
+prompt: |
+  You have a directory with 3 log files: app.log, error.log, and debug.log.
+  Your task is to:
+  1. Read each file and extract all lines containing "ERROR" or "WARN"
+  2. Parse timestamps in format YYYY-MM-DD HH:MM:SS
+  3. Output a summary JSON with:
+     - total_errors: count of ERROR lines
+     - total_warnings: count of WARN lines (but not ERROR WARN)
+     - by_file: dict with counts per file
+     - time_range: first and last timestamp found
+
+  Example output:
+  {"total_errors": 5, "total_warnings": 3, "by_file": {"app.log": 4, "error.log": 2, "debug.log": 0}, "time_range": {"start": "2024-01-15 08:30:00", "end": "2024-01-15 14:22:00"}}
+
+  For this task, assume:
+  -- app.log has 3 ERRORs and 1 WARN
+  -- error.log has 2 ERRORs and 2 WARNs  
+  -- debug.log has 0 ERRORs, 3 WARNs
+
+  Respond with ONLY the JSON object.
+expected_output: ""
+eval:
+  json_match:
+    weight: 1.0
+    expected:
+      total_errors: 5
+      total_warnings: 4
+      by_file:
+        app.log: 4
+        error.log: 4
+        debug.log: 3
+      time_range:
+        start: "2024-01-15 08:30:00"
+        end: "2024-01-15 14:22:00"

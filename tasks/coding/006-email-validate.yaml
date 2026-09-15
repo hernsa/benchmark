@@ -1,0 +1,42 @@
+id: coding-006-email-validate
+title: Email validation with edge cases
+category: coding
+difficulty: hard
+prompt: 'Write a Python function `is_valid_email(s: str) -> bool` that validates
+
+  email addresses. A valid email:
+
+  - Has exactly one @ symbol
+
+  - Local part: 1-64 chars, alphanumeric and . _ - +
+
+  - Domain: has at least one dot, labels are 1-63 chars, alphanumeric and -
+
+  - Labels do not start or end with hyphen
+
+  - TLD is 2-63 chars
+
+  - No consecutive dots anywhere
+
+  - No empty segments
+
+
+  Respond with a single ```python code block containing the complete solution.
+
+  '
+expected_output: ''
+eval:
+  pytest:
+    weight: 1.0
+    test_code: "from solution import is_valid_email\nimport string\n\ndef test_basic_valid():\n    assert is_valid_email(\"user@example.com\") is True\n    assert is_valid_email(\"test.user+tag@domain.co.uk\"\
+      ) is True\n\ndef test_basic_invalid():\n    assert is_valid_email(\"not-an-email\") is False\n    assert is_valid_email(\"@example.com\") is False\n    assert is_valid_email(\"user@\") is False\n\n\
+      def test_consecutive_dots():\n    assert is_valid_email(\"user..name@example.com\") is False\n    assert is_valid_email(\"user@example..com\") is False\n\ndef test_tld_hyphen():\n    assert is_valid_email(\"\
+      user@exa_mple.com\") is False\n    assert is_valid_email(\"user@.com\") is False\n\ndef test_long_local():\n    long_local = \"a\" * 65\n    assert is_valid_email(long_local + \"@example.com\") is\
+      \ False\n    assert is_valid_email(\"a\" * 64 + \"@example.com\") is True\n\ndef test_plus_minus_underscore():\n    assert is_valid_email(\"user+tag@example.com\") is True\n    assert is_valid_email(\"\
+      user-tag@example.com\") is True\n    assert is_valid_email(\"user_tag@example.com\") is True\n\ndef test_domain_rules():\n    assert is_valid_email(\"user@-example.com\") is False\n    assert is_valid_email(\"\
+      user@example-.com\") is False\n\ndef test_double_at():\n    assert is_valid_email(\"user@@example.com\") is False\n\ndef test_tld_length():\n    assert is_valid_email(\"user@example.c\") is False\n\
+      \    assert is_valid_email(\"user@example.com\") is True\n\ndef test_empty():\n    assert is_valid_email(\"\") == False\n\ndef test_no_domain():\n    assert is_valid_email(\"user@\") == False\n\n\
+      def test_double_at():\n    assert is_valid_email(\"user@domain@com\") == False\n\ndef test_uppercase_valid():\n    assert is_valid_email(\"User@Example.COM\") is True\n\ndef test_subdomain_valid():\n\
+      \    assert is_valid_email(\"user@mail.example.com\") is True\n\ndef test_single_char_tld():\n    assert is_valid_email(\"user@example.c\") is False\n\ndef test_spaces_invalid():\n    assert is_valid_email(\"\
+      \ user@example.com\") is False\n    assert is_valid_email(\"user@example.com \") is False\n\ndef test_numeric_tld_valid():\n    assert is_valid_email(\"user@mail.123\") is True\n\ndef test_hyphen_edge_label():\n\
+      \    assert is_valid_email(\"user@-example.com\") is False\n"

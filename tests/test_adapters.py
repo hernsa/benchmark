@@ -1,4 +1,4 @@
-﻿import json
+import json
 import logging
 
 from agent_benchmark.adapters.echo import EchoAdapter

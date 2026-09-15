@@ -1,4 +1,4 @@
-﻿import json
+import json
 import pytest
 from agent_benchmark.adapters.opencode import (
     OpencodeAdapter,

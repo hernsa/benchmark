@@ -1,0 +1,43 @@
+id: coding-008-roman-numerals
+title: Roman numeral calculator
+category: coding
+difficulty: hard
+prompt: 'Write a Python function `add_roman(a: str, b: str) -> str` that adds two Roman
+
+  numeral strings and returns the result as a Roman numeral.
+
+
+  Valid numerals: I=1, V=5, X=10, L=50, C=100, D=500, M=1000
+
+  Rules: I before V/X (4,9), X before L/C (40,90), C before D/M (400,900)
+
+
+  Examples:
+
+  - add_roman("IX", "I") = "X"
+
+  - add_roman("XIV", "VI") = "XX"
+
+  - add_roman("CMXCIX", "I") = "D"
+
+  - add_roman("MMMCMXCIX", "I") = "MMMM"
+
+
+  Input validation: invalid numerals raise ValueError with message "invalid roman"
+
+
+  Respond with a single ```python code block containing the complete solution.
+
+  '
+expected_output: ''
+eval:
+  pytest:
+    weight: 1.0
+    test_code: "from solution import add_roman\n\ndef test_basic_add():\n    assert add_roman('I', 'I') == 'II'\n    assert add_roman('V', 'I') == 'VI'\n\ndef test_subtractive():\n    assert add_roman('IV',\
+      \ 'I') == 'V'\n    assert add_roman('IX', 'I') == 'X'\n    assert add_roman('XIV', 'VI') == 'XX'\n\ndef test_large_numbers():\n    assert add_roman('X', 'V') == 'XV'\n    assert add_roman('C', 'C')\
+      \ == 'CC'\n\ndef test_carry_over():\n    assert add_roman('IX', 'I') == 'X'\n    assert add_roman('XCIX', 'I') == 'C'\n    assert add_roman('CMXCIX', 'I') == 'M'\n\ndef test_max_value():\n    assert\
+      \ add_roman('MMMCMXCIX', 'I') == 'MMMM'\n\ndef test_empty():\n    assert add_roman('', '') == ''\n\ndef test_single_chars():\n    assert add_roman('V', 'V') == 'X'\n\ndef test_small_adds():\n    assert\
+      \ add_roman(\"IV\", \"IV\") == \"VIII\"\n    assert add_roman(\"XL\", \"LX\") == \"C\"\n\ndef test_big_round():\n    assert add_roman(\"CM\", \"CM\") == \"MDCCC\"\n\ndef test_invalid_repeats():\n\
+      \    try:\n        add_roman(\"VV\", \"I\")\n        raised = False\n    except ValueError as e:\n        raised = \"invalid roman\" in str(e)\n    assert raised\n\ndef test_invalid_subtractive():\n\
+      \    try:\n        add_roman(\"IL\", \"I\")\n        raised = False\n    except ValueError as e:\n        raised = \"invalid roman\" in str(e)\n    assert raised\n\ndef test_bad_chars():\n    try:\n\
+      \        add_roman(\"ABC\", \"I\")\n        raised = False\n    except ValueError as e:\n        raised = \"invalid roman\" in str(e)\n    assert raised\n"

@@ -1,4 +1,4 @@
-﻿import logging
+import logging
 
 import pytest
 
@@ -15,9 +15,9 @@ def test_loads_sample_task():
 
 def test_loads_all_builtin_tasks():
     tasks = load_tasks(["tasks"])
-    assert len(tasks) == 16
+    assert len(tasks) == 28
     categories = {t.category for t in tasks}
-    assert categories == {"coding", "debugging", "tool-use", "reasoning", "instruction-following"}
+    assert categories == {"coding", "debugging", "tool-use", "reasoning", "instruction-following", "agentic"}
     difficulties = {t.difficulty for t in tasks}
     assert difficulties == {"easy", "medium", "hard"}
 

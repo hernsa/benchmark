@@ -1,4 +1,4 @@
-﻿"""Function-call scoring."""
+"""Function-call scoring."""
 
 import json
 import re

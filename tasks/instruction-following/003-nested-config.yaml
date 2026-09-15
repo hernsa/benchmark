@@ -1,0 +1,43 @@
+id: instruction-003-nested-config
+title: "Nested configuration with validation"
+category: instruction-following
+difficulty: hard
+prompt: |
+  You are configuring a service that needs a JSON configuration object.
+  Build a JSON object with these exact requirements:
+
+  - A "server" object with:
+    - "host": string (must be a non-empty hostname)
+    - "port": integer from 1-65535
+    - "ssl": boolean
+  - A "logging" object with:
+    - "level": one of "debug", "info", "warning", "error"
+    - "outputs": array of strings, each a file path (min 1 item)
+  - A "features" array of strings, each a feature flag name
+    (must have at least 2 features, all lowercase)
+  - A "version" string in semver format (x.y.z)
+
+  Example valid output:
+  {"server": {"host": "api.example.com", "port": 8443, "ssl": true},
+   "logging": {"level": "info", "outputs": ["/var/log/app.log"]},
+   "features": ["caching", "monitoring"],
+   "version": "1.2.0"}
+
+  Respond with ONLY the JSON object.
+expected_output: ""
+eval:
+  json_match:
+    weight: 1.0
+    expected:
+      server:
+        host: localhost
+        port: 3000
+        ssl: true
+      logging:
+        level: info
+        outputs:
+          - /var/log/app.log
+      features:
+        - caching
+        - monitoring
+      version: 1.0.0

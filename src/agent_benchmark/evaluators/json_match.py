@@ -1,4 +1,4 @@
-﻿"""Deep JSON comparison scoring."""
+"""Deep JSON comparison scoring."""
 
 from .function_call import extract_json
 

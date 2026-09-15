@@ -1,4 +1,4 @@
-﻿from agent_benchmark.adapters.echo import EchoAdapter
+from agent_benchmark.adapters.echo import EchoAdapter
 from agent_benchmark.models import Task
 from agent_benchmark.runner import run
 

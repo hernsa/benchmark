@@ -1,21 +1,11 @@
-﻿id: tooluse-003-nested-args
-title: "Nested tool arguments"
+id: tooluse-003-nested-args
+title: Nested tool arguments
 category: tool-use
 difficulty: hard
-prompt: |
-  You have access to a tool:
-
-  - create_user(name: str, address: dict, tags: list) - Create a user record.
-    - name: full name of the user
-    - address: object with keys "street" and "city"
-    - tags: list of strings
-
-  User request: "Create user Ada Lovelace at 1 Main St, London, with the
-  admin tag."
-
-  Respond with ONLY a JSON object of the form:
-  {"name": <tool name>, "arguments": {<arg>: <value>, ...}}
-expected_output: ""
+prompt: "You have access to a tool:\n\n- create_user(name: str, address: dict, tags: list) - Create a user record.\n  - name: full name of the user\n  - address: object with keys \"street\" and \"city\"\
+  \n  - tags: list of strings\n\nUser request: \"Create user Ada Lovelace at 1 Main St, London, with the\nadmin tag.\"\n\nRespond with ONLY a JSON object of the form:\n{\"name\": <tool name>, \"arguments\"\
+  : {<arg>: <value>, ...}}\n"
+expected_output: ''
 eval:
   function_call:
     weight: 1.0
@@ -26,4 +16,5 @@ eval:
         street: 1 Main St
         city: London
       tags:
-        - admin
+      - admin
+    strict: true

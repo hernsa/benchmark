@@ -1,0 +1,24 @@
+id: reasoning-004-logic-puzzle
+title: "Logic puzzle: three houses"
+category: reasoning
+difficulty: hard
+prompt: |
+  Three friends — Alice, Bob, and Carol — live in three different houses
+  painted red, blue, and green. Each owns a different pet: cat, dog, bird.
+  Use the clues:
+
+  1. Alice does not live in the red house.
+  2. The person in the green house owns a bird.
+  3. Bob owns a cat.
+  4. Carol lives in the blue house.
+
+  Who owns the dog? Show your reasoning, then give the final answer as:
+  #### <name>
+
+  Respond with your full reasoning and final answer.
+expected_output: ""
+eval:
+  final_answer:
+    weight: 1.0
+    mode: exact
+    target: Carol

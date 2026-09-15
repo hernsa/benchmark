@@ -1,34 +1,13 @@
-﻿id: debugging-002-mutable-default
-title: "Fix the mutable default argument"
+id: debugging-002-mutable-default
+title: Fix the mutable default argument
 category: debugging
 difficulty: medium
-prompt: |
-  The function below is supposed to return a NEW list containing `item`,
-  leaving any caller-provided list untouched, but it has the classic mutable
-  default argument bug (state leaks between calls):
-
-  ```python
-  def append_to(item, lst=[]):
-      lst.append(item)
-      return lst
-  ```
-
-  Respond with a single ```python code block containing the FIXED function.
-expected_output: ""
+prompt: "The function below is supposed to return a NEW list containing `item`,\nleaving any caller-provided list untouched, but it has the classic mutable\ndefault argument bug (state leaks between calls):\n\
+  \n```python\ndef append_to(item, lst=[]):\n    lst.append(item)\n    return lst\n```\n\nRespond with a single ```python code block containing the FIXED function.\n"
+expected_output: ''
 eval:
   pytest:
     weight: 1.0
-    test_code: |
-      from solution import append_to
-
-
-      def test_fresh_default():
-          assert append_to(1) == [1]
-
-
-      def test_no_state_leak():
-          assert append_to(2) == [2]
-
-
-      def test_explicit_list():
-          assert append_to("a", ["x"]) == ["x", "a"]
+    test_code: "from solution import append_to\n\n\ndef test_fresh_default():\n    assert append_to(1) == [1]\n\n\ndef test_no_state_leak():\n    assert append_to(2) == [2]\n\n\ndef test_explicit_list():\n\
+      \    assert append_to(\"a\", [\"x\"]) == [\"x\", \"a\"]\n\ndef test_three_sequential_defaults():\n    a = append_to(1)\n    b = append_to(2)\n    c = append_to(3)\n    assert a == [1] and b == [2]\
+      \ and c == [3]\n\ndef test_interleaved():\n    mine = [9]\n    assert append_to(1, mine) == [9, 1]\n    assert append_to(2) == [2]\n    assert mine == [9, 1]\n"

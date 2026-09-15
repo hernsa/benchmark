@@ -1,15 +1,11 @@
-﻿id: reasoning-001-train-speed
-title: "Train speed"
+id: reasoning-001-train-speed
+title: Train speed
 category: reasoning
 difficulty: easy
-prompt: |
-  A train travels 120 kilometers in 1.5 hours. Show your reasoning, then end
-  your reply with the speed in km/h on its own line in exactly this format:
-
-  #### <answer>
-expected_output: "80"
+prompt: 'A train travels 120 km at 60 km/h, then another 60 km at 120 km/h. What is the average speed for the whole trip in km/h? Reply with the speed alone as #### <answer>'
+expected_output: '80'
 eval:
   final_answer:
     weight: 1.0
-    target: "80"
+    target: '72'
     mode: numeric
